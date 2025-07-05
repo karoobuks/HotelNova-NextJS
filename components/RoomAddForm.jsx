@@ -159,28 +159,6 @@ const RoomAddForm = () => {
           ))}
         </div>
       </div>
-
-      {/* Review Fields
-      <div className="mb-6 bg-gray-100 p-4 rounded">
-        <h3 className="text-xl font-semibold mb-4">Guest Review</h3>
-        <div className="mb-2">
-          <label htmlFor="reviewer">Reviewer</label>
-          <input type="text" name="reviewer" id="reviewer" className="border rounded w-full px-3 py-2" />
-        </div>
-        <div className="mb-2">
-          <label htmlFor="comment">Comment</label>
-          <textarea name="comment" id="comment" className="border rounded w-full px-3 py-2" rows="3" />
-        </div>
-        <div className="mb-2">
-          <label htmlFor="rating">Rating (0–5)</label>
-          <input type="number" name="rating" id="rating" min="0" max="5" className="border rounded w-full px-3 py-2" />
-        </div>
-        <div className="mb-2">
-          <label htmlFor="date">Date</label>
-          <input type="date" name="date" id="date" className="border rounded w-full px-3 py-2" />
-        </div>
-      </div> */}
-
       <div className="mb-4">
         <label htmlFor="images">Upload up to 4 Images</label>
         <input

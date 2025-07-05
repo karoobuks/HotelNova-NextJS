@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import connectedDB from '@/config/database';
 import Room from '@/models/Room';
 import Review from '@/models/Review';
+import Notification from '@/models/Notification';
 import { getSessionUser } from '@/utils/getSessionUser';
 
 export const dynamic = 'force-dynamic';
@@ -10,7 +11,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(req, { params }) {
   await connectedDB();
 
-  const { id: roomId } = params;
+  const { id: roomId } =  params;
   const { comment, rating } = await req.json();
 
   try {
@@ -30,8 +31,20 @@ export async function POST(req, { params }) {
       room: roomId,
       comment,
       rating,
+      date: new Date(),
     });
 
+    await Notification.create({
+      user: sessionUser.user.id,
+      message:  `Thank you, ${sessionUser.user.firstname || 'Guest'}, 
+      for your review of "${room.name}".
+      We truly appreciate your thoughtful feedback.
+      Your insights help us maintain the high standards we strive for at HotelNova.`,
+      read: false,
+      createdAt: new Date(),
+      });
+
+      const cleanReview = newReview.toObject();
 
 
         if (!Array.isArray(room.reviews)) {
@@ -46,15 +59,16 @@ export async function POST(req, { params }) {
     const averageRating = totalRating / allReviews.length;
     room.averageRating = parseFloat(averageRating.toFixed(1));
 
-    console.log('🧾 Review object:', review);
+    console.log('🧾 Review object:', newReview);
 
 
     // ✅ 4. Save room
     await room.save();
 
-    return NextResponse.json({ success: true, review: newReview }, { status: 201 });
+    return NextResponse.json({ success: true, review: cleanReview }, { status: 201 });
   } catch (err) {
     console.error('Review save failed:', err);
     return NextResponse.json({ error: 'Failed to save review' }, { status: 500 });
   }
 }
+

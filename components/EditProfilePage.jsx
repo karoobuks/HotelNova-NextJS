@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { signOut, update } from 'next-auth/react'; 
+import { signIn, signOut, update } from 'next-auth/react'; 
 
 
 const EditProfilePage = ({ user }) => {
@@ -41,7 +41,7 @@ const EditProfilePage = ({ user }) => {
 
     if (res.ok) {
          toast.success('Profile updated')
-          await update();
+          await signIn('credentials');
 
      window.location.href = '/profile';
 

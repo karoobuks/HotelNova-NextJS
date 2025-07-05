@@ -1,14 +1,10 @@
 
-
-
 import connectedDB from '@/config/database';
 import User from '@/models/User';
 import Review from '@/models/Review';
 import { getSessionUser } from '@/utils/getSessionUser';
 import { v2 as cloudinary } from 'cloudinary';
 import { NextResponse } from 'next/server';
-
-
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -31,9 +27,6 @@ export async function POST(req) {
     if (!user?.id ) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
-
-
 
   const data = await req.formData();
   const name = data.get('name');
@@ -87,3 +80,4 @@ export async function POST(req) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
+

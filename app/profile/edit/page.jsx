@@ -1,20 +1,3 @@
-// 'use client';
-
-// import { useSession } from 'next-auth/react';
-// import { useRouter } from 'next/navigation';
-// import EditProfilePage from '@/components/EditProfilePage';
-
-// const EditProfilePageWrapper = async () => {
-//   const {session, user, userId } = await useSession();
-
-//   if (!session?.user) {
-//     return <p>Unauthorized</p>;
-//   }
-
-//   return <EditProfilePage user={session.user} />;
-// };
-
-// export default EditProfilePageWrapper;
 
 'use client';
 import { useSession } from 'next-auth/react';

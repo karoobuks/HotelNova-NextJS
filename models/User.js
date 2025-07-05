@@ -42,7 +42,24 @@ const UserSchema = new Schema({
         select:false
     }
 
-},{timestamps:true})
+}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+
+UserSchema.virtual('name').get(function () {
+  const fullName = `${this.firstname || ''} ${this.lastname || ''}`.trim();
+
+  if (fullName) return fullName;
+
+  // Fallback: derive name from email (before @)
+  if (this.email) {
+    const [username] = this.email.split('@');
+    return username.charAt(0).toUpperCase() + username.slice(1); // Capitalize
+  }
+
+  return 'Anonymous';
+});
+
+
 
 const User = models.User || model('User', UserSchema)
 

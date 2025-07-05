@@ -20,7 +20,7 @@ const ReviewForm =  ({ id }) => {
 
 
   const [form, setForm] = useState({
-    reviewer: '',
+    //reviewer: '',
     comment: '',
     rating: '',
   });
@@ -67,7 +67,7 @@ const ReviewForm =  ({ id }) => {
         <h2 className="text-3xl font-bold text-center mb-6">Leave a Review</h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
+          {/* <div>
             <label htmlFor="reviewer" className="block font-semibold mb-1">Your Name</label>
             <input
               type="text"
@@ -78,7 +78,7 @@ const ReviewForm =  ({ id }) => {
               required
               className="w-full border border-gray-300 rounded px-3 py-2"
             />
-          </div>
+          </div> */}
 
           <div>
             <label htmlFor="comment" className="block font-semibold mb-1">Comment</label>
@@ -111,7 +111,7 @@ const ReviewForm =  ({ id }) => {
               />
             </div>
 
-            <div>
+            {/* <div>
               <label htmlFor="date" className="block font-semibold mb-1">Date</label>
               <input
                 type="date"
@@ -122,7 +122,7 @@ const ReviewForm =  ({ id }) => {
                 required
                 className="w-full border border-gray-300 rounded px-3 py-2"
               />
-            </div>
+            </div> */}
           </div>
           
           <div>

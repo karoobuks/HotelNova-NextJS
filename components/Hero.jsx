@@ -10,7 +10,7 @@ const Hero = () => {
                 <p className="text-3xl font-semibold text-white my-4">
                     Luxury. Comfort. Elegance
                 </p>
-                <Link href='/book' className="text-blue-600 font-bold text-2xl bg-white rounded-md px-3 py-2 hover:bg-gray-200 ">Book Now</Link>
+                <Link href='/rooms' className="text-blue-600 font-bold text-2xl bg-white rounded-md px-3 py-2 hover:bg-gray-200 ">Book Now</Link>
 
             </div>
 

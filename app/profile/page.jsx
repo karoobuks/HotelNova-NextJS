@@ -13,6 +13,7 @@ import connectedDB from '@/config/database';
 import User from '@/models/User';
 import Review from '@/models/Review';
 import Booking from '@/models/Booking';
+import Room from '@/models/Room';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
 import { redirect } from 'next/navigation';

@@ -2,11 +2,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-const EditBookingPage = ({ roomId }) => {
+const EditBookingPage = () => {
   const router = useRouter();
+  const params = useParams();
+  const roomId = params.id;
   const [form, setForm] = useState({
     checkInDate: '',
     checkOutDate: '',
@@ -45,7 +47,8 @@ const EditBookingPage = ({ roomId }) => {
     setSubmitting(false);
   };
 
-  return (
+ 
+return (
     <section className="max-w-xl mx-auto p-6 bg-white rounded shadow">
       <h2 className="text-2xl font-bold mb-6">Book Your Stay</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
