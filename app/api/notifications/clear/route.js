@@ -5,11 +5,13 @@ import Notification from "@/models/Notification";
 
 export async function DELETE() {
   await connectedDB();
-  const session = await getSessionUser();
-  const user = session?.user;
+  const user = await getSessionUser();
+  
 
-  if (!user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!user?._id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  await Notification.deleteMany({ user: user.id });
+  await Notification.deleteMany({ user: user._id });
   return NextResponse.json({ success: true });
 }
+
+

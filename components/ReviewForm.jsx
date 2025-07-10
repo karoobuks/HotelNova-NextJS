@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {  useRouter } from 'next/navigation';
+import {  useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 
@@ -10,8 +10,10 @@ import toast from 'react-hot-toast';
 const ReviewForm =  ({ id }) => {
  
 
-//   const { id } = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const reviewCount = parseInt(searchParams.get('count') || '0', 10);
+
 
   if (!id) {
   console.error("id is missing");
@@ -64,7 +66,16 @@ const ReviewForm =  ({ id }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-8">
-        <h2 className="text-3xl font-bold text-center mb-6">Leave a Review</h2>
+        {/* <h2 className="text-3xl font-bold text-center mb-6">Leave a Review</h2> */}
+         {reviewCount === 0 ? (
+            <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+              Be the first to review this room
+            </h2>
+          ) : (
+            <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+              Leave a Review
+            </h2>
+          )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* <div>

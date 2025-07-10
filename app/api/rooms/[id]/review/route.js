@@ -11,12 +11,12 @@ export const dynamic = 'force-dynamic';
 export async function POST(req, { params }) {
   await connectedDB();
 
-  const { id: roomId } =  params;
+  const { id: roomId } =  await params;
   const { comment, rating } = await req.json();
 
   try {
-    const sessionUser = await getSessionUser();
-    if (!sessionUser?.user?.id) {
+    const user = await getSessionUser();
+    if (!user?._id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -27,7 +27,7 @@ export async function POST(req, { params }) {
 
     // ✅ 1. Create the review
     const newReview = await Review.create({
-      reviewer: sessionUser.user.id,
+      reviewer: user._id,
       room: roomId,
       comment,
       rating,
@@ -35,8 +35,8 @@ export async function POST(req, { params }) {
     });
 
     await Notification.create({
-      user: sessionUser.user.id,
-      message:  `Thank you, ${sessionUser.user.firstname || 'Guest'}, 
+      user: user._id,
+      message:  `Thank you, ${user.firstname || 'Guest'}, 
       for your review of "${room.name}".
       We truly appreciate your thoughtful feedback.
       Your insights help us maintain the high standards we strive for at HotelNova.`,

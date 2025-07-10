@@ -3,6 +3,7 @@ import connectedDB from '@/config/database';
 import User from '@/models/User';
 import Review from '@/models/Review';
 import { getSessionUser } from '@/utils/getSessionUser';
+import { cookies } from 'next/headers';
 import { v2 as cloudinary } from 'cloudinary';
 import { NextResponse } from 'next/server';
 
@@ -19,12 +20,13 @@ export async function POST(req) {
   try{
   await connectedDB();
 
-  const sessionUser = await getSessionUser();
+     const cookieStore = cookies();
+    const user = await getSessionUser(cookieStore);;
  
-  const user = sessionUser.user;
+  // const user = sessionUser.user;
 
   
-    if (!user?.id ) {
+    if (!user?._id ) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -57,13 +59,13 @@ export async function POST(req) {
 
 
   const updated = await User.findByIdAndUpdate(
-    user.id,
+    user._id,
     { name, phone, image: imageUrl },
     { new: true }
   );
 
     // 🧮 Get the number of reviews by this user
-    const reviewCount = await Review.countDocuments({ reviewer: user.id });
+    const reviewCount = await Review.countDocuments({ reviewer: user._id });
 
     const updatedUser = updated.toObject(); // convert to plain JS object
     updatedUser.reviewCount = reviewCount;  // merge reviewCount into user

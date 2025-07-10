@@ -9,10 +9,10 @@ import { NextResponse } from 'next/server';
 export async function POST(req) {
   await connectedDB();
 
-  const session = await getSessionUser();
-  const user = session?.user;
+  const user = await getSessionUser();
+  
 
-  if (!user?.id) {
+  if (!user?._id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -57,7 +57,7 @@ export async function POST(req) {
 
   // ✅ Create the booking
   const booking = await Booking.create({
-    user: user.id,
+    user: user._id,
     room: roomId,
     checkInDate,
     checkOutDate,
@@ -66,7 +66,7 @@ export async function POST(req) {
   });
 
   await Notification.create({
-  user: user.id,
+  user: user._id,
   message: `Your booking for "${room.name}" has been confirmed!`,
   read: false,
   createdAt: new Date(),

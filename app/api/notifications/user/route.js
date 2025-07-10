@@ -5,12 +5,35 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   await connectedDB();
-  const session = await getSessionUser();
-  const user = session?.user;
+  const user = await getSessionUser();
+  // const user = session?.user;
 
-  if (!user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  //console.log('🔍 User ID in notifications route:', user._id);
 
-  const notifications = await Notification.find({ user: user.id }).sort({ createdAt: -1 }).lean();
+
+  if (!user?._id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const notifications = await Notification.find({ user: user._id }).sort({ createdAt: -1 }).lean();
   return NextResponse.json({ notifications });
 }
 
+
+// // app/api/notifications/user/route.js
+// import { cookies } from 'next/headers';
+// import { getSessionUser } from '@/utils/getSessionUser';
+// import connectedDB from '@/config/database';
+// import Notification from '@/models/Notification';
+
+// export async function GET() {
+//   await connectedDB();
+
+//   const user = await getSessionUser(cookies()); // ✅ pass cookies
+
+//   if (!user?._id) {
+//     return Response.json({ error: 'Unauthorized' }, { status: 401 });
+//   }
+
+//   const notifications = await Notification.find({ user: user._id }).sort({ createdAt: -1 });
+
+//   return Response.json(notifications);
+// }

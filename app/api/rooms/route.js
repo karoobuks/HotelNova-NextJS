@@ -8,8 +8,8 @@ export async function POST(req) {
   try {
     await connectedDB();
 
-    const sessionUser = await getSessionUser();
-    if (!sessionUser || !sessionUser.userId) {
+    const user = await getSessionUser();
+    if (!user || !user._id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

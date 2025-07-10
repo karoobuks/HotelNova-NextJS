@@ -11,7 +11,7 @@ const roomSchema = new mongoose.Schema({
   headerImage: { type:String, required:true},
   price: { type: String, required: true },
   availability: { type: Boolean, required: true },
-  bookingStatus: { type: String, enum: ['Open', 'Booked'], required: true },
+  bookingStatus: { type: String, enum: ['Open', 'Booked', 'Available'], required: true },
   averageRating: { type: Number, min: 0, max: 5,  default: 0 },
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref:'Review' }],
   createdAt: { type: Date, default: Date.now },

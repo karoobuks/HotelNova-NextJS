@@ -5,15 +5,15 @@ import { NextResponse } from 'next/server';
 
 export async function POST() {
   await connectedDB();
-  const session = await getSessionUser();
-  const user = session?.user;
+  const user = await getSessionUser();
+  
 
-  if (!user?.id) {
+  if (!user?._id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   await Notification.updateMany(
-    { user: user.id, read: false },
+    { user: user._id, read: false },
     { $set: { read: true } }
   );
 
