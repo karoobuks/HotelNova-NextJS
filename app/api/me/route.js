@@ -137,9 +137,19 @@ export async function GET() {
       return Response.json(user || null);
     }
 
+      // In your middleware.js
+    if (token && token.id) {
+      const user = await User.findById(token.id).lean();
+      if (user?.disabled) {
+        return NextResponse.redirect(new URL('/disabled', req.url));
+      }
+    }
+
     return Response.json(null, { status: 401 });
   } catch (err) {
     console.error('❌ Error in /api/me:', err);
     return Response.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
+

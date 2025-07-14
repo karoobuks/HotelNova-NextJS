@@ -553,7 +553,7 @@ const NavBar = () => {
                       href="/profile"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => closeDropdownAndNavigate(() => location.href = '/profile')}
-                    >Your Profile</Link>
+                    >My Profile</Link>
                     <Link
                       href="/rooms/save"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -595,7 +595,7 @@ const NavBar = () => {
                     href="/profile"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => closeDropdownAndNavigate(() => location.href = '/profile')}
-                  >Your Profile</Link>
+                  >My Profile</Link>
                   <Link
                     href="/rooms/save"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

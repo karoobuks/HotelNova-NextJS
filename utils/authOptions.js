@@ -185,6 +185,74 @@
 // };
 
 
+// import GoogleProvider from 'next-auth/providers/google';
+// import connectedDB from '@/config/database';
+// import User from '@/models/User';
+
+// export const authOptions = {
+//   providers: [
+//     GoogleProvider({
+//       clientId: process.env.GOOGLE_CLIENT_ID,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//       authorization: {
+//         params: {
+//           prompt: 'consent',
+//           access_type: 'offline',
+//           response_type: 'code',
+//         },
+//       },
+//       httpOptions:{
+//         timeout:100000
+//       },
+//     }),
+//   ],
+
+//   session: {
+//     strategy: 'jwt',
+//   },
+
+//   callbacks: {
+//     async signIn({ profile }) {
+//       await connectedDB();
+//       const existingUser = await User.findOne({ email: profile.email });
+//       if (!existingUser) {
+//         const [firstname, ...rest] = profile.name.split(' ');
+//         await User.create({
+//           email: profile.email,
+//           firstname,
+//           lastname: rest.join(' '),
+//           image: profile.picture,
+//           role: 'guest',
+//         });
+//       }
+//       return true;
+//     },
+
+//     async jwt({ token, user }) {
+//       await connectedDB();
+//       const dbUser = await User.findOne({ email: token.email });
+//       token.id = dbUser?._id?.toString();
+//       token.role = dbUser?.role || 'guest';
+//       return token;
+//     },
+
+//     async session({ session, token }) {
+//       session.user.id = token.id;
+//       session.user.role = token.role;
+//       return session;
+//     },
+//   },
+
+//   pages: {
+//     signIn: '/login',
+//   },
+
+//   secret: process.env.NEXTAUTH_SECRET,
+// };
+
+
+// /utils/authOptions.js
+
 import GoogleProvider from 'next-auth/providers/google';
 import connectedDB from '@/config/database';
 import User from '@/models/User';
@@ -201,8 +269,8 @@ export const authOptions = {
           response_type: 'code',
         },
       },
-      httpOptions:{
-        timeout:100000
+      httpOptions: {
+        timeout: 100000,
       },
     }),
   ],
@@ -212,30 +280,41 @@ export const authOptions = {
   },
 
   callbacks: {
+    // 🟡 When user signs in via Google
     async signIn({ profile }) {
       await connectedDB();
+
       const existingUser = await User.findOne({ email: profile.email });
+
       if (!existingUser) {
         const [firstname, ...rest] = profile.name.split(' ');
+
+        // 🔄 Create user with default role = guest
         await User.create({
           email: profile.email,
           firstname,
           lastname: rest.join(' '),
           image: profile.picture,
-          role: 'guest',
+          role: 'guest', // 👈 default role
         });
       }
+
       return true;
     },
 
-    async jwt({ token, user }) {
+    // 🔐 Add role & userId to JWT token
+    async jwt({ token }) {
       await connectedDB();
+
       const dbUser = await User.findOne({ email: token.email });
+
       token.id = dbUser?._id?.toString();
-      token.role = dbUser?.role || 'guest';
+      token.role = dbUser?.role || 'user';
+
       return token;
     },
 
+    // 💼 Expose role & ID to the session
     async session({ session, token }) {
       session.user.id = token.id;
       session.user.role = token.role;
@@ -249,3 +328,4 @@ export const authOptions = {
 
   secret: process.env.NEXTAUTH_SECRET,
 };
+

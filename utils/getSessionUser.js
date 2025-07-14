@@ -119,6 +119,37 @@
 // }
 
 
+// // utils/getSessionUser.js
+// import { getServerSession } from 'next-auth';
+// import { authOptions } from '@/utils/authOptions';
+// import jwt from 'jsonwebtoken';
+// import { cookies } from 'next/headers';
+// import connectedDB from '@/config/database';
+// import User from '@/models/User';
+
+// export async function getSessionUser() {
+//   await connectedDB();
+
+//   const session = await getServerSession(authOptions);
+//   if (session?.user?.email) {
+//     const user = await User.findOne({ email: session.user.email }).lean();
+//     return user;
+//   }
+
+//   const token = cookies().get('token')?.value;
+//   if (!token) return null;
+
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     const user = await User.findById(decoded.id).lean();
+//     return user;
+//   } catch (err) {
+//     console.error('❌ Invalid token in getSessionUser:', err);
+//     return null;
+//   }
+// }
+
+
 // utils/getSessionUser.js
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
@@ -130,12 +161,14 @@ import User from '@/models/User';
 export async function getSessionUser() {
   await connectedDB();
 
+  // ✅ Check if authenticated via NextAuth session
   const session = await getServerSession(authOptions);
   if (session?.user?.email) {
     const user = await User.findOne({ email: session.user.email }).lean();
-    return user;
+    return user; // includes role, name, etc.
   }
 
+  // ✅ Check for custom JWT token in cookie (e.g., manual login)
   const token = cookies().get('token')?.value;
   if (!token) return null;
 
@@ -148,5 +181,4 @@ export async function getSessionUser() {
     return null;
   }
 }
-
 

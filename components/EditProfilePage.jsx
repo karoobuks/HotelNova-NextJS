@@ -54,7 +54,7 @@ const EditProfilePage = ({ user }) => {
 
   return (
     <section className="max-w-2xl mx-auto p-6 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-6">Edit Your Profile</h2>
+      <h2 className="text-2xl font-bold mb-6">Edit My Profile</h2>
       <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
         <div>
           <label className="block font-medium">Name</label>

@@ -521,10 +521,13 @@ import Review from "@/models/Review";
 import { getSessionUser } from "@/utils/getSessionUser";
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import RoomImages from "@/components/RoomImages";
 import BookRoomButton from "@/components/BookRoomButton";
 import StarRating from "@/components/StarRating";
 import ReviewCard from "@/components/ReviewCard";
+import LeaveReviewButton from "@/components/LeaaveReviewButton";
+
 
 const RoomPage = async ({ params }) => {
   await connectedDB();
@@ -585,6 +588,18 @@ const RoomPage = async ({ params }) => {
     }
   });
 
+   
+
+
+    const review = await Review.findOne({
+      room: room._id,
+      reviewer: user._id,
+    });
+
+    const hasReviewed = !!review;
+   
+  
+
   
 
   const headerImage = plainRoom.images?.[0] || "/airpot-room.jpg";
@@ -632,13 +647,21 @@ const RoomPage = async ({ params }) => {
               </span>
             </div>
 
-            <div>
+            {/* <div>
               <Link href={`/rooms/${room._id}/review?count=${room.reviews.length}`}>
                 <button className="mt-1 bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-600">
                   Leave a Review
                 </button>
               </Link>
+            </div> */}
+            <div>
+              <LeaveReviewButton
+                hasReviewed={hasReviewed}
+                roomId={room._id.toString()}
+                reviewCount={room.reviews.length}
+              />
             </div>
+
 
             <div className="flex items-center gap-2">
               <span className="font-medium text-gray-700">Rating:</span>

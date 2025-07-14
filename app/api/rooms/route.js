@@ -13,6 +13,10 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    if(!['admin', 'manager'].includes(user.role)){
+     return NextResponse.json({error:'Forbidden: Only admins or managers can create rooms'}, {status:403})
+    }
+
     const body = await req.json();
     const { name, type, description, amenities, price, bookingStatus, images } = body;
 
@@ -44,7 +48,7 @@ export async function POST(req) {
       bookingStatus,
       averageRating: 0,
       reviews: [],
-      createdBy: sessionUser.userId,
+      createdBy: user._id,
       images: imageUrls,
       headerImage: imageUrls[0] || '/default-room.jpg',
     });

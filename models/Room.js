@@ -14,13 +14,14 @@ const roomSchema = new mongoose.Schema({
   bookingStatus: { type: String, enum: ['Open', 'Booked', 'Available'], required: true },
   averageRating: { type: Number, min: 0, max: 5,  default: 0 },
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref:'Review' }],
+  createdBy:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
 
-// const Room = models.Room || model('Room', roomSchema);
-const Room = globalThis.Room || model('Room', roomSchema);
-globalThis.Room = Room;
+ const Room = models?.Room || model('Room', roomSchema);
+// const Room = globalThis.Room || model('Room', roomSchema);
+// globalThis.Room = Room;
 
 
 export default Room

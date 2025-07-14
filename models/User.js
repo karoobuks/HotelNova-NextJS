@@ -17,8 +17,8 @@ const UserSchema = new Schema({
     },
     role:{
         type:String,
-        enum:['guest', 'receptionist', 'manager', 'admin', 'housekeeping'],
-        default: 'guest',
+        enum:['guest', 'receptionist', 'user', 'manager', 'admin', 'housekeeping'],
+        default: 'user',
     },
     password:{
         type:String,
@@ -29,10 +29,21 @@ const UserSchema = new Schema({
         type: String,
         default: '',
     },
+    status:{
+        type:String,
+        enum:['verified', 'banned', 'regular'],
+        default: 'regular',
+    },
+    lastLogin:{
+        type: Date, 
+    },
+     disabled: { type: Boolean, default: false },
     phone: { type: String },
     address: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
+    resetToken: String,
+    resetTokenExpiry: Date,
     passwordChangedAt:Date,
     passwordResetToken:String,
     passwordResetExpires:Date,
@@ -61,7 +72,9 @@ UserSchema.virtual('name').get(function () {
 
 
 
-const User = models.User || model('User', UserSchema)
+const User = models?.User || model('User', UserSchema);
+
+
 
 export default User;
 

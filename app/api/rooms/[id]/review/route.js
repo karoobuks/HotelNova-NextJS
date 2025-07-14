@@ -20,6 +20,15 @@ export async function POST(req, { params }) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const existingReview = await Review.findOne({
+      room:roomId,
+      reviewer:user._id
+    })
+
+    if(existingReview) {
+      return NextResponse.json({error:'You have already submitted a review for this room.'}, {status:400})
+    }
+
     const room = await Room.findById(roomId);
     if (!room) {
       return NextResponse.json({ error: 'Room not found' }, { status: 404 });
@@ -71,4 +80,6 @@ export async function POST(req, { params }) {
     return NextResponse.json({ error: 'Failed to save review' }, { status: 500 });
   }
 }
+
+
 

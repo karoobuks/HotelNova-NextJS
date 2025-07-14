@@ -21,6 +21,15 @@ export async function POST(req) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    // // 🔐 Check if trying to create elevated user
+    // if (['admin', 'manager'].includes(role)) {
+    //   const currentUser = await getSessionUser();
+
+    //   if (!currentUser || currentUser.role !== 'admin') {
+    //     return NextResponse.json({ message: 'Only admins can create admin/manager accounts' }, { status: 403 });
+    //   }
+    // }
+
     const newUser = new User({
       firstname,
       lastname,
@@ -28,6 +37,7 @@ export async function POST(req) {
       password: hashedPassword,
       phone,
       address,
+      // role,
     });
 
     // Create welcome notification

@@ -16,6 +16,14 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  if(user?.status?.includes('banned')){
+    return NextResponse.json({error: 'Unauthorized'}, {status: 401 })
+  }
+
+  if (user?.disabled === true){
+    return NextResponse.json({error:'Unauthorized'}, {status:401})
+  }
+
   const body = await req.json();
   const { roomId, checkInDate, checkOutDate, totalGuests } = body;
 

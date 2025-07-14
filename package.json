@@ -9,13 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@emailjs/nodejs": "^5.0.2",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "autoprefixer": "^10.4.21",
     "axios": "^1.10.0",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.6.1",
     "cookie": "^1.0.2",
-    "framer-motion": "^12.23.0",
+    "emailjs": "^4.0.3",
+    "framer-motion": "^12.23.3",
     "jose": "^6.0.11",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.16.0",
